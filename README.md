@@ -1,4 +1,4 @@
-# blind-relay-server
+# blind-relay-service
 
 ```sh
 npm i blind-relay-service
