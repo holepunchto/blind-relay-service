@@ -27,7 +27,7 @@ async function action (opts) {
     }
   })
 
-  const server = dht.createServer(socket => relay.accept(socket))
+  const server = dht.createServer((socket) => relay.accept(socket, { id: socket.remotePublicKey }))
 
   await server.listen(await store.createKeyPair('blind-relay'))
 
