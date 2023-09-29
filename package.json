@@ -1,0 +1,34 @@
+{
+  "name": "blind-relay-service",
+  "version": "1.0.0",
+  "description": "CLI for running blind relays",
+  "bin": {
+    "blind-relay": "./bin.mjs"
+  },
+  "files": [
+    "bin.mjs"
+  ],
+  "scripts": {
+    "test": "standard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/holepunchto/blind-relay-service.git"
+  },
+  "author": "Holepunch",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/holepunchto/blind-relay-service/issues"
+  },
+  "homepage": "https://github.com/holepunchto/blind-relay-service#readme",
+  "dependencies": {
+    "blind-relay": "^1.3.0",
+    "commander": "^11.0.0",
+    "corestore": "^6.15.9",
+    "hypercore-id-encoding": "^1.2.0",
+    "hyperdht": "^6.7.0"
+  },
+  "devDependencies": {
+    "standard": "^17.0.0"
+  }
+}
