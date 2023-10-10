@@ -5,10 +5,12 @@ import id from 'hypercore-id-encoding'
 import DHT from 'hyperdht'
 import Corestore from 'corestore'
 import { Server as RelayServer } from 'blind-relay'
+import replSwarm from 'repl-swarm'
 
 program
   .addOption(createOption('-s, --storage <path>').default('./corestore'))
   .addOption(createOption('-p, --port <num>').default(49737).argParser(Number))
+  .addOption(createOption('-r, --repl').default(false))
   .action(action)
   .parseAsync()
   .catch(err => {
@@ -37,6 +39,10 @@ async function action (opts) {
   })
 
   await server.listen(await store.createKeyPair('blind-relay'))
+
+  if (opts.repl) {
+    replSwarm({ dht, relay, server })
+  }
 
   console.log('Server listening on', id.encode(server.publicKey))
 }
