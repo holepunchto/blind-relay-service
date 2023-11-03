@@ -30,6 +30,8 @@ async function action (opts) {
   })
 
   const server = dht.createServer((socket) => {
+    socket.setKeepAlive(5000)
+
     socket
       .on('error', noop)
 
