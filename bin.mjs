@@ -2,10 +2,8 @@
 
 import { program, createOption } from 'commander'
 import id from 'hypercore-id-encoding'
-import DHT from 'hyperdht'
-import Corestore from 'corestore'
-import { Server as RelayServer } from 'blind-relay'
 import replSwarm from 'repl-swarm'
+import setupBlindRelay from './index.js'
 
 program
   .addOption(createOption('-s, --storage <path>').default('./corestore'))
@@ -19,34 +17,18 @@ program
   })
 
 async function action (opts) {
-  const store = new Corestore(opts.storage)
+  const storage = opts.storage
+  const port = opts.port
+  const useRepl = opts.repl
 
-  const dht = new DHT({ port: opts.port })
-
-  const relay = new RelayServer({
-    createStream (opts) {
-      return dht.createRawStream({ ...opts, framed: true })
-    }
+  const { server, relay } = await setupBlindRelay({
+    storage,
+    port
   })
 
-  const server = dht.createServer((socket) => {
-    socket.setKeepAlive(5000)
-
-    socket
-      .on('error', noop)
-
-    const session = relay.accept(socket, { id: socket.remotePublicKey })
-    session
-      .on('error', noop)
-  })
-
-  await server.listen(await store.createKeyPair('blind-relay'))
-
-  if (opts.repl) {
-    replSwarm({ dht, relay, server })
+  if (useRepl) {
+    replSwarm({ dht: server.dht, relay, server })
   }
 
   console.log('Server listening on', id.encode(server.publicKey))
 }
-
-function noop () {}
