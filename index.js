@@ -2,11 +2,10 @@ const DHT = require('hyperdht')
 const Corestore = require('corestore')
 const { Server: RelayServer } = require('blind-relay')
 
-async function setupBlindRelay ({ storage, port }) {
+async function setupBlindRelay ({ storage, port, bootstrap = null }) {
   const store = new Corestore(storage)
-  console.log('storage', storage, port)
 
-  const dht = new DHT({ port })
+  const dht = new DHT({ port, bootstrap })
 
   const relay = new RelayServer({
     createStream (opts) {

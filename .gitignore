@@ -5,3 +5,4 @@ coverage
 corestore
 build
 package-lock.json
+blind-relay-corestore
