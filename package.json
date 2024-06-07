@@ -6,7 +6,8 @@
     "blind-relay": "./bin.mjs"
   },
   "files": [
-    "bin.mjs"
+    "bin.mjs",
+    "index.js"
   ],
   "scripts": {
     "test": "standard"
