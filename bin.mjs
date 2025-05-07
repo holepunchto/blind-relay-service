@@ -54,7 +54,7 @@ async function action (opts) {
     const scraperPublicKey = id.decode(opts.scraperPublicKey)
     const scraperSecret = id.decode(opts.scraperSecret)
 
-    const prometheusAlias = `blind-peer-${id.normalize(server.publicKey)}`.slice(0, 99)
+    const prometheusAlias = `blind-peer-${id.normalize(server.publicKey)}`
 
     instrumentation = new Instrumentation({
       dht,
