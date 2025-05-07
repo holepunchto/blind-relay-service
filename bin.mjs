@@ -6,11 +6,16 @@ import DHT from 'hyperdht'
 import Corestore from 'corestore'
 import { Server as RelayServer } from 'blind-relay'
 import replSwarm from 'repl-swarm'
+import Instrumentation from 'hyper-instrument'
+
+const SERVICE_NAME = 'blind-relay'
 
 program
   .addOption(createOption('-s, --storage <path>').default('./corestore'))
   .addOption(createOption('-p, --port <num>').default(49737).argParser(Number))
   .addOption(createOption('-r, --repl').default(false))
+  .addOption(createOption('--scraper-public-key <string>').default(null))
+  .addOption(createOption('--scraper-secret <string>').default(null))
   .action(action)
   .parseAsync()
   .catch(err => {
@@ -41,6 +46,27 @@ async function action (opts) {
   })
 
   await server.listen(await store.createKeyPair('blind-relay'))
+
+  let instrumentation = null
+  if (opts.scraperPublicKey) {
+    console.info('Setting up instrumentation')
+
+    const scraperPublicKey = id.decode(opts.scraperPublicKey)
+    const scraperSecret = id.decode(opts.scraperSecret)
+
+    const prometheusAlias = `blind-peer-${id.normalize(server.publicKey)}`.slice(0, 99)
+
+    instrumentation = new Instrumentation({
+      dht,
+      scraperPublicKey,
+      prometheusAlias,
+      scraperSecret,
+      prometheusServiceName: SERVICE_NAME
+    })
+
+    instrumentation.registerLogger(console)
+    await instrumentation.ready()
+  }
 
   if (opts.repl) {
     replSwarm({ dht, relay, server })
