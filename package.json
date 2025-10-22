@@ -25,8 +25,11 @@
     "blind-relay": "^1.3.0",
     "commander": "^11.0.0",
     "corestore": "^6.15.9",
+    "graceful-goodbye": "^1.3.3",
+    "hyper-instrument": "^2.3.0",
     "hypercore-id-encoding": "^1.2.0",
     "hyperdht": "^6.7.0",
+    "pino": "^10.1.0",
     "repl-swarm": "^2.1.0"
   },
   "devDependencies": {
