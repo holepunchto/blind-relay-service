@@ -11,7 +11,7 @@ import Instrumentation from 'hyper-instrument'
 import pino from 'pino'
 import goodbye from 'graceful-goodbye'
 
-const SERVICE_NAME = 'blind-relay-temp-test'
+const SERVICE_NAME = 'blind-relay'
 
 program
   .addOption(createOption('-s, --storage <path>').default('./corestore'))
