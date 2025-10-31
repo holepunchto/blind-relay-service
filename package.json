@@ -1,6 +1,6 @@
 {
   "name": "blind-relay-service",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CLI for running blind relays",
   "bin": {
     "blind-relay": "./bin.mjs"
