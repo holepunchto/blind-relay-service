@@ -1,0 +1,18 @@
+name: ci
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: holepunchto/actions/node-base@v1
+        with:
+          node-version: 22
+      - run: npm install
+      - run: npm test
