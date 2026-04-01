@@ -10,6 +10,7 @@ import replSwarm from 'repl-swarm'
 import Instrumentation from 'hyper-instrument'
 import pino from 'pino'
 import goodbye from 'graceful-goodbye'
+import packageInfo from './package.json' with { type: 'json' }
 
 const SERVICE_NAME = 'blind-relay'
 
@@ -22,12 +23,12 @@ program
   .addOption(createOption('--scraper-alias <str>').default(null))
   .action(action)
   .parseAsync()
-  .catch(err => {
+  .catch((err) => {
     console.error(`error: ${err.message}`)
     process.exitCode = 1
   })
 
-async function action (opts) {
+async function action(opts) {
   const logger = pino({ name: SERVICE_NAME })
 
   const corestoreLoc = path.resolve(opts.storage)
@@ -37,7 +38,7 @@ async function action (opts) {
   const dht = new DHT({ port: opts.port })
 
   const relay = new RelayServer({
-    createStream (opts) {
+    createStream(opts) {
       return dht.createRawStream({ ...opts, framed: true })
     }
   })
@@ -45,12 +46,10 @@ async function action (opts) {
   const server = dht.createServer((socket) => {
     socket.setKeepAlive(5000)
 
-    socket
-      .on('error', noop)
+    socket.on('error', noop)
 
     const session = relay.accept(socket, { id: socket.remotePublicKey })
-    session
-      .on('error', noop)
+    session.on('error', noop)
   })
 
   let instrumentation = null
@@ -90,7 +89,8 @@ async function action (opts) {
       scraperPublicKey,
       prometheusAlias,
       scraperSecret,
-      prometheusServiceName: SERVICE_NAME
+      prometheusServiceName: SERVICE_NAME,
+      version: packageInfo.version
     })
 
     instrumentation.registerLogger(logger)
@@ -100,4 +100,4 @@ async function action (opts) {
   logger.info(`Server listening on ${id.encode(server.publicKey)}`)
 }
 
-function noop () {}
+function noop() {}
