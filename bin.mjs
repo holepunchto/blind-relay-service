@@ -30,7 +30,8 @@ const cmd = command(
   async function ({ flags }) {
     const logger = console // TODO: move back to pino
     const storage = flags.storage || DEFAULT_STORAGE
-    const port = flags.port || DEFAULT_PORT
+    const port = flags.port ? parseInt(flags.port) : DEFAULT_PORT
+
     const { scraperPublicKey, scraperSecret, scraperAlias } = flags
 
     const corestoreLoc = path.resolve(storage)
