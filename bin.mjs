@@ -28,7 +28,7 @@ const cmd = command(
   ),
   flag('--scraper-alias [scraper-alias]', '(optional) Alias with which to register to the scraper'),
   async function ({ flags }) {
-    const logger = console // pino({ name: SERVICE_NAME })
+    const logger = console // TODO: move back to pino
     const storage = flags.storage || DEFAULT_STORAGE
     const port = flags.port || DEFAULT_PORT
     const { scraperPublicKey, scraperSecret, scraperAlias } = flags
