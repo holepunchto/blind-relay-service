@@ -89,6 +89,86 @@ const cmd = command(
         version: packageInfo.version
       })
 
+      const promClient = instrumentation.promClient
+
+      new promClient.Gauge({
+        name: 'blind_relay_sessions_accepted',
+        help: 'The total amount of relay sessions accepted',
+        collect() {
+          this.set(relay.stats.sessions.accepted)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_sessions_opened',
+        help: 'The total amount of relay sessions opened',
+        collect() {
+          this.set(relay.stats.sessions.opened)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_sessions_closed',
+        help: 'The total amount of relay sessions closed',
+        collect() {
+          this.set(relay.stats.sessions.closed)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_pairings_requested',
+        help: 'The total amount of relay pairings requested',
+        collect() {
+          this.set(relay.stats.pairings.requested)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_pairings_matched',
+        help: 'The total amount of relay pairings matched',
+        collect() {
+          this.set(relay.stats.pairings.matched)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_pairings_cancelled',
+        help: 'The total amount of relay pairings cancelled',
+        collect() {
+          this.set(relay.stats.pairings.cancelled)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_pairings_pending',
+        help: 'The amount of relay pairings pending',
+        collect() {
+          this.set(relay.stats.pairings.pending)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_pairings_active',
+        help: 'The amount of relay pairings active',
+        collect() {
+          this.set(relay.stats.pairings.active)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_streams_opened',
+        help: 'The total amount of relay streams opened',
+        collect() {
+          this.set(relay.stats.streams.opened)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_streams_closed',
+        help: 'The total amount of relay streams closed',
+        collect() {
+          this.set(relay.stats.streams.closed)
+        }
+      })
+      new promClient.Gauge({
+        name: 'blind_relay_streams_errors',
+        help: 'The total amount of relay stream errors',
+        collect() {
+          this.set(relay.stats.streams.errors)
+        }
+      })
+
       instrumentation.registerLogger(logger)
       await instrumentation.ready()
     }
