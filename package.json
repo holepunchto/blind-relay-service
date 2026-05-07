@@ -24,7 +24,7 @@
   "homepage": "https://github.com/holepunchto/blind-relay-service#readme",
   "dependencies": {
     "bare-path": "^3.0.0",
-    "blind-relay": "^1.3.0",
+    "blind-relay": "^1.6.1",
     "corestore": "^7.0.0",
     "graceful-goodbye": "^1.3.3",
     "hyper-instrument": "^3.0.0",
