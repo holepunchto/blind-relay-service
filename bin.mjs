@@ -187,7 +187,7 @@ const cmd = command(
 )
 
 function normalizeErrorCode(err) {
-  return err && typeof err.code === 'string' ? err.code : 'UNKNOWN'
+  return typeof err.code === 'string' ? err.code : 'UNKNOWN'
 }
 
 function noop() {}
