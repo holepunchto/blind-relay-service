@@ -46,13 +46,17 @@ const cmd = command(
       }
     })
 
+    let streamErrorsByCode = null
+
     const server = dht.createServer((socket) => {
       socket.setKeepAlive(5000)
 
       socket.on('error', noop)
 
       const session = relay.accept(socket, { id: socket.remotePublicKey })
-      session.on('error', noop)
+      session.on('error', (err) => {
+        if (streamErrorsByCode) streamErrorsByCode.inc({ code: normalizeErrorCode(err) })
+      })
     })
 
     let instrumentation = null
@@ -168,6 +172,11 @@ const cmd = command(
           this.set(relay.stats.streams.errors)
         }
       })
+      streamErrorsByCode = new promClient.Counter({
+        name: 'blind_relay_streams_errors_total',
+        help: 'The total amount of relay stream errors by error code',
+        labelNames: ['code']
+      })
 
       instrumentation.registerLogger(logger)
       await instrumentation.ready()
@@ -176,6 +185,10 @@ const cmd = command(
     logger.info(`Server listening on ${id.encode(server.publicKey)}`)
   }
 )
+
+function normalizeErrorCode(err) {
+  return typeof err.code === 'string' ? err.code : 'UNKNOWN'
+}
 
 function noop() {}
 
