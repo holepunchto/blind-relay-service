@@ -3,10 +3,12 @@
   "version": "2.1.1",
   "description": "CLI for running blind relays",
   "bin": {
-    "blind-relay": "./bin.mjs"
+    "blind-relay": "./bin.mjs",
+    "blind-relay-bare": "./bin-bare.mjs"
   },
   "files": [
-    "bin.mjs"
+    "bin.mjs",
+    "bin-bare.mjs"
   ],
   "scripts": {
     "format": "prettier --write .",
