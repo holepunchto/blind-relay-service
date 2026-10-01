@@ -32,7 +32,9 @@
     "hyper-instrument": "^3.0.0",
     "hypercore-id-encoding": "^1.2.0",
     "hyperdht": "^6.7.0",
-    "paparam": "^1.10.1"
+    "paparam": "^1.10.1",
+    "pino": "^10.3.1",
+    "pino-bare": "^0.1.0"
   },
   "devDependencies": {
     "lunte": "^1.6.0",
@@ -43,6 +45,10 @@
     "path": {
       "bare": "bare-path",
       "default": "path"
+    },
+    "pino": {
+      "bare": "pino-bare",
+      "default": "pino"
     }
   }
 }
