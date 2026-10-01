@@ -8,6 +8,7 @@ import Corestore from 'corestore'
 import { Server as RelayServer } from 'blind-relay'
 import Instrumentation from 'hyper-instrument'
 import goodbye from 'graceful-goodbye'
+import pino from 'pino'
 import packageInfo from './package.json' with { type: 'json' }
 
 const SERVICE_NAME = 'blind-relay'
@@ -28,7 +29,7 @@ const cmd = command(
   ),
   flag('--scraper-alias [scraper-alias]', '(optional) Alias with which to register to the scraper'),
   async function ({ flags }) {
-    const logger = console // TODO: move back to pino
+    const logger = pino({ name: SERVICE_NAME })
     const storage = flags.storage || DEFAULT_STORAGE
     const port = flags.port ? parseInt(flags.port) : DEFAULT_PORT
 
